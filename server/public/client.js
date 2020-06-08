@@ -1,6 +1,5 @@
 $(document).ready(readyNow);
 
-const moment = require('moment');
 
 function readyNow(params) {
     getTasks();
