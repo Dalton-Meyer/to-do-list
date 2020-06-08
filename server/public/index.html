@@ -11,7 +11,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-     <h1>To-Do List</h1>
+    <div class="container">
+     <h1 class="display-3">To-Do List</h1>
      <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-default">End Date</span>
@@ -25,18 +26,21 @@
         <input type="text" id="task" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default">
       </div>
      <button id="submit" type="button" class="btn btn-primary btn-lg btn-block">Submit</button>
-    <table class="table table-striped">
-        <thead>
+    <table class="table table-striped table-dark">
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">Start Date:</th>
                 <th scope="col">Finish Date:</th>
                 <th scope="col">Task:</th>
                 <th scope="col">status:</th>
+                <th scope="col">Remove:</th>
             </tr>
         </thead>
         <tbody class="taskTable">
 
         </tbody>
     </table>
+    <footer>EDA Edition</footer>
+    </div>
 </body>
 </html>
