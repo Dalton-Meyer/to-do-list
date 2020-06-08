@@ -18,13 +18,15 @@ function getTasks() {
         for (const task of response) {
             let sDate = task.date_start;
             let eDate = task.date_end;
-            $('.taskTable').append(`
-            <tr data-id=${task.id}> 
+            let tr = $(`<tr data-id=${task.id}> </tr>`)
+            tr.append(`
             <td>${sDate.split('T')[0]}</td>
             <td>${eDate.split('T')[0]}</td>
-            <td>${task.task}</td>
-            <td><button class="btn btn-warning tDone">${task.done}</button></td>
-            <td><button class="btn btn-danger remove">Remove</button></tr>`)
+            <td>${task.task}</td>`);
+            if (task.done === 'not finished'){tr.append(`<td><button class="btn btn-warning tDone">${task.done}</button></td>`)}
+            else{tr.append(`<td><button class="btn btn-success tDone" disabled>${task.done}</button></td>`)}
+            tr.append(`<td><button class="btn btn-danger remove">Remove</button>`)
+            $('.taskTable').append(tr);
         }
     })
 }; // end getTasks
