@@ -1,6 +1,26 @@
 const pg = require("pg");
-const Pool = pg.Pool;
-const pool = new Pool({
+const url = require('url');
+
+let config = {};
+
+if (process.env.DATABASE_URL) {
+  // Heroku gives a url, not a connection object
+  // https://github.com/brianc/node-pg-pool
+  const params = url.parse(process.env.DATABASE_URL);
+  const auth = params.auth.split(':');
+
+  config = {
+    user: auth[0],
+    password: auth[1],
+    host: params.hostname,
+    port: params.port,
+    database: params.pathname.split('/')[1],
+    ssl: { rejectUnauthorized: false },
+    max: 10, // max number of clients in the pool
+    idleTimeoutMillis: 30000, // how long a client is allowed to remain idle before being closed
+  };
+} else {
+  config = {
      database: "weekend-to-do-app",
      user: "dalton",
      password: "dalton",
@@ -8,12 +28,23 @@ const pool = new Pool({
      port: 5432,
      max: 10,
      idleTimeoutMillis: 30000,
+  };
+}
+
+// this creates the pool that will be shared by all other modules
+const pool = new pg.Pool(config);
+
+// the pool will log when it connects to the database
+pool.on('connect', () => {
+  console.log('Postgesql connected');
 });
-pool.on("connect", () => {
-     console.log("Postgresql Connected Successfully");
+
+// the pool with emit an error on behalf of any idle clients
+// it contains if a backend error or network partition happens
+pool.on('error', (err) => {
+  console.log('Unexpected error on idle client', err);
+  process.exit(-1);
 });
-pool.on("error", (error) => {
-     console.log("There was an error in postgres", error);
-});
+
 
 module.exports = pool;
