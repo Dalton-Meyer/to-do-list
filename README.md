@@ -5,6 +5,8 @@ Weekend SQL To Do List
 ## Description
 
 Duration: 1 Weekend
+This is just a simple to-do list built with jQuery and SQL. All the information to recreate it yourself should all be here.
+Plus a couple example to tasks just to see how everything works and test it out. 
 
 ## Installation
 
